@@ -1,0 +1,29 @@
+<mat-card class="flight-card">
+  <div class="image-wrap">
+    <img [src]="imageUrl" alt="Flight image" class="flight-image" />
+
+    <div class="top-badges">
+      <span class="status-badge" [class.direct]="isDirect" [class.stop]="!isDirect">
+        {{ stopLabel }}
+      </span>
+    </div>
+  </div>
+
+  <mat-card-content class="content">
+    <div class="route-row">
+      <div class="route">
+        <div class="cities">{{ from }} → {{ to }}</div>
+        <div class="meta">{{ airline }} · {{ duration }}</div>
+      </div>
+
+      <div class="price-box">
+        <div class="price">{{ currency }}{{ price }}</div>
+        <div class="price-label">per passenger</div>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <div class="card-actions">
+    <button mat-raised-button color="primary" type="button" (click)="onBook()" [disabled]="flightId == null">Book</button>
+  </div>
+</mat-card>

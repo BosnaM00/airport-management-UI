@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Sign up</h2>
+
+<div mat-dialog-content>
+  <form [formGroup]="form" class="d-flex flex-column gap-3">
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" autocomplete="username" />
+      <mat-error *ngIf="form.get('username')?.hasError('required')">
+        Username is required
+      </mat-error>
+      <mat-error *ngIf="form.get('username')?.hasError('minlength')">
+        Username must be at least 3 characters
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" autocomplete="current-password" />
+      <mat-error *ngIf="form.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+        Password must be at least 6 characters
+      </mat-error>
+    </mat-form-field>
+
+    <div class="small">
+      You do not have an account? Register
+      <a href="" (click)="$event.preventDefault(); goToRegister()">here</a>.
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="submit()">
+    Continue
+  </button>
+</div>

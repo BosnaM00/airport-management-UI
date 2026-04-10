@@ -1,0 +1,40 @@
+<div class="container">
+  <button class="btn btn-dark">Buton Bootstrap</button>
+  <div class="alert alert-success mt-3">
+    Bootstrap e configurat ✅
+  </div>
+  <button mat-raised-button color="primary">
+    Angular Material
+  </button>
+  <button (click)="sortTable()">Sort By ({{sort}})</button>
+  <div *ngIf="loading">Is loading...</div>
+
+  <table *ngIf="!loading" border="1" cellpadding="6">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>City</th>
+      <th>Country</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let airport of airports">
+      <td>{{ airport.icao }}</td>
+      <td>{{ airport.name }}</td>
+      <td>{{ airport.city }}</td>
+      <td>{{ airport.country }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="previousPage()"
+          [disabled]="page === 0">Previous</button>
+    <span>Page {{page+1}}...{{totalPages}}</span>
+    <button (click)="nextPage()"
+            [disabled]="page === totalPages-1">Next</button>
+  </div>
+
+</div>

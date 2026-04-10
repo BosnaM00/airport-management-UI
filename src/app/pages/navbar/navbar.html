@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/search-flights">Airport Manager</a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/airports" routerLinkActive="active">Airports</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bookings" routerLinkActive="active">Bookings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/aircraft" routerLinkActive="active">Aircraft</a>
+        </li>
+      </ul>
+
+      <div class="ms-auto">
+        <ng-container *ngIf="authService.isLoggedIn(); else signInBtn">
+          <button mat-stroked-button (click)="logout()">Sign out</button>
+        </ng-container>
+        <ng-template #signInBtn>
+          <button mat-raised-button color="primary" (click)="openLogin()">Sign in</button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</nav>

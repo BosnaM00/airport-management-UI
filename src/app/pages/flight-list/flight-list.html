@@ -1,0 +1,35 @@
+<div class="container">
+  <button (click)="sortTable()">Sort By ({{sort}})</button>
+  <div *ngIf="loading">Is loading...</div>
+
+  <table *ngIf="!loading" border="1" cellpadding="6">
+    <thead>
+    <tr>
+      <th>Code</th>
+      <th>Scheduled Departure</th>
+      <th>Scheduled Arrival</th>
+      <th>Route ID</th>
+      <th>Flight Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let flight of flights">
+      <td>{{ flight.code }}</td>
+      <td>{{ flight.departureTime }}</td>
+      <td>{{ flight.arrivalTime }}</td>
+      <td>{{ flight.routeId }}</td>
+      <td>{{ flight.status }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="previousPage()"
+            [disabled]="page === 0">Previous</button>
+    <span>Page {{page+1}}...{{totalPages}}</span>
+    <button (click)="nextPage()"
+            [disabled]="page === totalPages-1">Next</button>
+  </div>
+
+</div>

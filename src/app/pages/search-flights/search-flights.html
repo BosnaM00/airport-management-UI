@@ -1,0 +1,164 @@
+<div class="hero">
+  <form [formGroup]="form" class="search-bar">
+
+    <div class="seg">
+      <div class="label">De la</div>
+      <mat-form-field appearance="outline" class="field">
+        <input matInput placeholder="Oraș sau aeroport" formControlName="from">
+      </mat-form-field>
+    </div>
+
+    <div class="swap">
+      <button mat-mini-fab type="button" (click)="swap()" aria-label="Swap">
+        <mat-icon>swap_horiz</mat-icon>
+      </button>
+    </div>
+
+    <div class="seg">
+      <div class="label">La</div>
+      <mat-form-field appearance="outline" class="field">
+        <input matInput placeholder="Țară, oraș sau aeroport" formControlName="to">
+      </mat-form-field>
+    </div>
+
+    <div class="seg">
+      <div class="label">Plecare</div>
+      <mat-form-field appearance="outline" class="field">
+        <input
+          matInput
+          placeholder="Adaugă data"
+          [matDatepicker]="depPicker"
+          formControlName="departureDate">
+        <mat-datepicker-toggle matSuffix [for]="depPicker"></mat-datepicker-toggle>
+        <mat-datepicker #depPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="seg">
+      <div class="label">Întoarcere</div>
+      <mat-form-field appearance="outline" class="field">
+        <input
+          matInput
+          placeholder="Adaugă data"
+          [matDatepicker]="retPicker"
+          formControlName="returnDate">
+        <mat-datepicker-toggle matSuffix [for]="retPicker"></mat-datepicker-toggle>
+        <mat-datepicker #retPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="seg travelers">
+      <div class="label">Călători</div>
+
+      <button mat-button class="travelers-btn" [matMenuTriggerFor]="travMenu" type="button">
+        {{ travelersLabel }}
+        <mat-icon class="chev">expand_more</mat-icon>
+      </button>
+
+      <mat-menu #travMenu="matMenu" class="trav-menu" xPosition="before">
+        <div class="trav-panel" (click)="$event.stopPropagation()">
+          <div class="row">
+            <div class="text">
+              <div class="t1">Adulți</div>
+              <div class="t2">Minim 1</div>
+            </div>
+            <div class="ctr">
+              <button mat-icon-button type="button" (click)="dec('adults')">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span class="num">{{ form.controls.adults.value }}</span>
+              <button mat-icon-button type="button" (click)="inc('adults')">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="row">
+            <div class="text">
+              <div class="t1">Copii</div>
+              <div class="t2">0+</div>
+            </div>
+            <div class="ctr">
+              <button mat-icon-button type="button" (click)="dec('children')">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span class="num">{{ form.controls.children.value }}</span>
+              <button mat-icon-button type="button" (click)="inc('children')">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="menu-actions">
+            <button mat-raised-button color="primary" type="button">
+              Done
+            </button>
+          </div>
+        </div>
+      </mat-menu>
+    </div>
+
+    <div class="cta">
+      <button mat-raised-button color="primary" class="search-btn" type="button" (click)="search()">
+        Căutare
+      </button>
+    </div>
+
+  </form>
+
+  <div class="results-preview">
+
+    <!-- Loading spinner -->
+    <div *ngIf="loading" class="results-state">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Searching flights…</p>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="!loading && errorMessage" class="results-state results-error">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <!-- Empty state (after a search returned nothing) -->
+    <div *ngIf="!loading && !errorMessage && hasSearched && flights.length === 0" class="results-state">
+      <mat-icon>flight_off</mat-icon>
+      <p>No flights found for <strong>{{ searchedFrom }} → {{ searchedTo }}</strong>.</p>
+    </div>
+
+    <!-- Booking confirmation -->
+    <div *ngIf="confirmedPnr" class="results-state booking-success">
+      <mat-icon>check_circle</mat-icon>
+      <p>Booking confirmed! Your PNR is <strong>{{ confirmedPnr }}</strong></p>
+    </div>
+
+    <!-- Booking error -->
+    <div *ngIf="bookingError" class="results-state results-error">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ bookingError }}</p>
+    </div>
+
+    <!-- Booking spinner -->
+    <div *ngIf="bookingInProgress" class="results-state">
+      <mat-spinner diameter="32"></mat-spinner>
+      <p>Booking…</p>
+    </div>
+
+    <!-- Results -->
+    <ng-container *ngIf="!loading && !errorMessage && flights.length > 0">
+      <app-flight-card
+        *ngFor="let flight of flights"
+        [from]="searchedFrom"
+        [to]="searchedTo"
+        [airline]="flight.code"
+        [duration]="durationLabel(flight)"
+        [flightId]="flight.id"
+        (bookFlight)="onBookFlight($event)">
+      </app-flight-card>
+    </ng-container>
+
+  </div>
+</div>
+<app-footer></app-footer>

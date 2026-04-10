@@ -1,0 +1,74 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Aircraft</h2>
+    <button mat-raised-button color="primary" (click)="openCreate()">+ Add Aircraft</button>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="loading">Loading...</div>
+
+  <!-- Form modal -->
+  <div *ngIf="showForm" class="card mb-4">
+    <div class="card-header">{{ editingId ? 'Edit Aircraft' : 'New Aircraft' }}</div>
+    <div class="card-body">
+      <div *ngIf="formError" class="alert alert-danger">{{ formError }}</div>
+      <div class="mb-2">
+        <label class="form-label">Tail Number *</label>
+        <input class="form-control" [(ngModel)]="form.tailNumber" placeholder="e.g. N12345" />
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Model *</label>
+        <input class="form-control" [(ngModel)]="form.model" placeholder="e.g. Boeing 737" />
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Capacity *</label>
+        <input class="form-control" type="number" [(ngModel)]="form.capacity" min="1" />
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Seat Map Ref</label>
+        <input class="form-control" [(ngModel)]="form.seatMapRef" placeholder="Optional" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Status</label>
+        <input class="form-control" [(ngModel)]="form.status" placeholder="e.g. ACTIVE" />
+      </div>
+      <button mat-raised-button color="primary" (click)="saveForm()">Save</button>
+      <button mat-button (click)="cancelForm()" class="ms-2">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <table *ngIf="!loading && aircraft.length > 0" class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Tail Number</th>
+        <th>Model</th>
+        <th>Capacity</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of aircraft">
+        <td>{{ a.id }}</td>
+        <td>{{ a.tailNumber }}</td>
+        <td>{{ a.model }}</td>
+        <td>{{ a.capacity }}</td>
+        <td>{{ a.status ?? '—' }}</td>
+        <td>
+          <button mat-stroked-button (click)="openEdit(a)" class="me-2">Edit</button>
+          <button mat-stroked-button color="warn" (click)="deleteAircraft(a.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && aircraft.length === 0 && !error" class="text-muted">No aircraft found.</div>
+
+  <div class="d-flex align-items-center gap-2 mt-2" *ngIf="totalPages > 1">
+    <button mat-stroked-button (click)="previousPage()" [disabled]="page === 0">Previous</button>
+    <span>Page {{ page + 1 }} of {{ totalPages }}</span>
+    <button mat-stroked-button (click)="nextPage()" [disabled]="page >= totalPages - 1">Next</button>
+  </div>
+</div>

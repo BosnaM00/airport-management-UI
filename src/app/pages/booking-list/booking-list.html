@@ -1,0 +1,37 @@
+<div class="container">
+  <h2>My Bookings</h2>
+
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div *ngIf="!loading && bookings.length === 0 && !errorMessage">
+    No bookings found.
+  </div>
+
+  <table *ngIf="!loading && bookings.length > 0" border="1" cellpadding="6">
+    <thead>
+    <tr>
+      <th>PNR</th>
+      <th>Flight ID</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let booking of bookings">
+      <td>{{ booking.pnr }}</td>
+      <td>{{ booking.flightId }}</td>
+      <td>{{ booking.status }}</td>
+      <td>
+        <button
+          *ngIf="booking.status !== 'CANCELLED'"
+          (click)="cancel(booking.id)">
+          Cancel
+        </button>
+        <span *ngIf="booking.status === 'CANCELLED'">—</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

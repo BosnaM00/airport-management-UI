@@ -1,0 +1,115 @@
+<div class="register-wrapper">
+  <mat-card class="register-card">
+
+    <h2 class="title">Create Account</h2>
+    <p class="subtitle">Complete the form to create a new user.</p>
+
+    <form [formGroup]="form" class="form">
+
+      <!-- EMAIL -->
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+        <mat-error *ngIf="form.get('email')?.hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="form.get('email')?.hasError('email')">
+          Invalid email format
+        </mat-error>
+      </mat-form-field>
+
+      <!-- PHONE -->
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone">
+      </mat-form-field>
+
+      <!-- PASSWORD -->
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+        <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+          Minimum 8 characters
+        </mat-error>
+      </mat-form-field>
+
+      <div class="grid">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Position</mat-label>
+          <input matInput formControlName="position">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Department</mat-label>
+          <input matInput formControlName="department">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Grade</mat-label>
+          <input matInput formControlName="grade">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Hire Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="hireDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Document Type</mat-label>
+          <input matInput formControlName="docType">
+          <mat-error *ngIf="form.get('docType')?.hasError('required')">
+            Document Type is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Document Number</mat-label>
+          <input matInput formControlName="docNumber">
+          <mat-error *ngIf="form.get('docNumber')?.hasError('required')">
+            Document Number is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nationality</mat-label>
+          <input matInput formControlName="nationality"
+                 [matAutocomplete]="nationalityAuto"
+                 (input)="filterNationalities($any($event.target).value)">
+          <mat-autocomplete #nationalityAuto="matAutocomplete">
+            <mat-option *ngFor="let nat of filteredNationalities" [value]="nat">
+              {{ nat }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="form.get('nationality')?.hasError('required')">
+            Nationality is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Loyalty Tier</mat-label>
+          <input matInput formControlName="loyaltyTier">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Emergency Contact</mat-label>
+          <input matInput formControlName="emergencyContact">
+        </mat-form-field>
+
+      </div>
+
+      <p *ngIf="errorMessage" style="color:#b00020;font-size:13px;margin:0">{{ errorMessage }}</p>
+
+      <div class="actions">
+        <button mat-button type="button" (click)="goBack()">Cancel</button>
+        <button mat-raised-button color="primary" type="button" (click)="submit()">
+          Create User
+        </button>
+      </div>
+
+    </form>
+
+  </mat-card>
+</div>

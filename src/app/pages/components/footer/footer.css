@@ -1,0 +1,51 @@
+.app-footer {
+  margin-top: 48px;
+  background: #0d2746;
+  color: #ffffff;
+  padding: 28px 0;
+}
+
+.footer-container {
+  width: min(1400px, 92%);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.brand h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.brand p {
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 14px;
+  transition: opacity 0.2s ease;
+}
+
+.footer-links a:hover {
+  opacity: 0.75;
+}
+
+.footer-copy p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+}

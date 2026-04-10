@@ -1,0 +1,68 @@
+<div class="auth-shell">
+  <div class="auth-header">
+    <div>
+      <h2 class="title" mat-dialog-title>Welcome back</h2>
+      <p class="subtitle">Sign in to continue.</p>
+    </div>
+
+    <button class="icon-btn" mat-icon-button (click)="close()" aria-label="Close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="tab-content">
+    <form [formGroup]="loginForm" class="form">
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" autocomplete="email" type="email" />
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+          Invalid email format
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hidePasswordLogin ? 'password' : 'text'"
+          formControlName="password"
+          autocomplete="current-password" />
+
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="hidePasswordLogin = !hidePasswordLogin"
+          [attr.aria-label]="hidePasswordLogin ? 'Show password' : 'Hide password'">
+          <mat-icon>{{ hidePasswordLogin ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+          Minimum 6 characters
+        </mat-error>
+      </mat-form-field>
+
+      <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+
+      <div class="actions">
+        <button mat-button type="button" (click)="close()">Cancel</button>
+        <button mat-raised-button color="primary" type="button" (click)="submitLogin()">
+          Login
+        </button>
+      </div>
+
+      <div class="hint">
+        You do not have an account?
+        <a href="" (click)="$event.preventDefault(); goToRegister()">Register here</a>.
+      </div>
+
+    </form>
+  </div>
+</div>

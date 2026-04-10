@@ -1,0 +1,148 @@
+.hero {
+  background: #0b2440; /* apropiat de exemplu */
+  padding: 18px 18px 22px;
+  border-radius: 10px;
+}
+
+.search-bar {
+  display: grid;
+  grid-template-columns: 1.1fr 52px 1.2fr 1fr 1fr 1.2fr 140px;
+  gap: 0;
+  align-items: stretch;
+
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.seg {
+  padding: 12px 14px;
+  border-right: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.seg:last-of-type {
+  border-right: none;
+}
+
+.label {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.field {
+  width: 100%;
+}
+
+/* material field compact */
+:host ::ng-deep .mat-mdc-form-field-infix {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+:host ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.swap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid rgba(0,0,0,0.08);
+  background: #ffffff;
+}
+
+.travelers-btn {
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.chev {
+  opacity: 0.7;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: #0b2440; /* ca să iasă butonul în evidență */
+}
+
+.search-btn {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+}
+
+/* Menu styling */
+:host ::ng-deep .trav-menu {
+  padding: 0 !important;
+}
+
+.trav-panel {
+  padding: 14px;
+  width: 300px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+}
+
+.text .t1 {
+  font-weight: 700;
+}
+
+.text .t2 {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.ctr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.num {
+  width: 24px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.menu-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .search-bar {
+    grid-template-columns: 1fr 52px 1fr;
+    grid-auto-rows: auto;
+  }
+  .cta {
+    grid-column: 1 / -1;
+  }
+}
+
+.results-preview {
+  margin: 32px auto 0;
+  width: min(1500px, 92%);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
+  gap: 24px;
+  justify-content: center;
+}
