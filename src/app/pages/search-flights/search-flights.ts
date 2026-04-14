@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -11,11 +11,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FlightCardComponent } from '../components/flight-card/flight-card';
 import { FooterComponent } from '../components/footer/footer';
 import { FlightService } from '../../services/flight-service';
 import { BookingService } from '../../services/booking-service';
+import { AirportService } from '../../services/airport-service';
 import { FlightResponseDTO } from '../../models/flight-response';
+import { AirportResponseDTO } from '../../models/airport-response';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -34,17 +37,24 @@ import { AuthService } from '../../services/auth.service';
     MatMenuModule,
     MatDividerModule,
     MatProgressSpinnerModule,
+    MatAutocompleteModule,
     FlightCardComponent,
     FooterComponent,
   ],
   templateUrl: './search-flights.html',
   styleUrls: ['./search-flights.css'],
 })
-export class SearchFlights {
+export class SearchFlights implements OnInit {
   private fb = inject(FormBuilder);
   private flightService = inject(FlightService);
   private bookingService = inject(BookingService);
   private authService = inject(AuthService);
+  private airportService = inject(AirportService);
+
+  allAirports: AirportResponseDTO[] = [];
+  filteredFromAirports: AirportResponseDTO[] = [];
+  filteredToAirports: AirportResponseDTO[] = [];
+  airportsLoading = false;
 
   confirmedPnr: string | null = null;
   bookingError: string | null = null;
@@ -65,6 +75,38 @@ export class SearchFlights {
   errorMessage: string | null = null;
   searchedFrom = '';
   searchedTo = '';
+
+  ngOnInit(): void {
+    this.airportsLoading = true;
+    this.airportService.getAllAirports(0, 1000, 'name,asc').subscribe({
+      next: page => {
+        this.allAirports = page.content;
+        this.filteredFromAirports = page.content;
+        this.filteredToAirports = page.content;
+        this.airportsLoading = false;
+      },
+      error: () => { this.airportsLoading = false; }
+    });
+  }
+
+  filterFromAirports(value: string): void {
+    this.filteredFromAirports = this._matchAirports(value);
+  }
+
+  filterToAirports(value: string): void {
+    this.filteredToAirports = this._matchAirports(value);
+  }
+
+  private _matchAirports(value: string): AirportResponseDTO[] {
+    const filter = (value ?? '').toLowerCase().trim();
+    if (!filter) return this.allAirports;
+    return this.allAirports.filter(a =>
+      a.name.toLowerCase().includes(filter) ||
+      a.city.toLowerCase().includes(filter) ||
+      a.country.toLowerCase().includes(filter) ||
+      a.iata.toLowerCase().includes(filter)
+    );
+  }
 
   swap(): void {
     const from = this.form.get('from')!.value;
