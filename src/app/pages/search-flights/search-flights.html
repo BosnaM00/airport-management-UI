@@ -14,7 +14,7 @@
           <mat-option *ngIf="airportsLoading" disabled>Se încarcă…</mat-option>
           <mat-option
             *ngFor="let airport of filteredFromAirports"
-            [value]="airport.iata">
+            [value]="airport">
             <strong>{{ airport.iata }}</strong>&nbsp;{{ airport.name }} — {{ airport.city }}, {{ airport.country }}
           </mat-option>
         </mat-autocomplete>
@@ -40,7 +40,7 @@
           <mat-option *ngIf="airportsLoading" disabled>Se încarcă…</mat-option>
           <mat-option
             *ngFor="let airport of filteredToAirports"
-            [value]="airport.iata">
+            [value]="airport">
             <strong>{{ airport.iata }}</strong>&nbsp;{{ airport.name }} — {{ airport.city }}, {{ airport.country }}
           </mat-option>
         </mat-autocomplete>
