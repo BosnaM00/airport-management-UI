@@ -1,4 +1,5 @@
 export interface AirportResponseDTO {
+  id: number;
   iata: string;
   icao: string;
   name: string;

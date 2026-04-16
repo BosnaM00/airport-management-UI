@@ -10,7 +10,7 @@
           formControlName="from"
           [matAutocomplete]="fromAuto"
           (input)="filterFromAirports($any($event.target).value)">
-        <mat-autocomplete #fromAuto="matAutocomplete">
+        <mat-autocomplete #fromAuto="matAutocomplete" [displayWith]="displayAirport">
           <mat-option *ngIf="airportsLoading" disabled>Se încarcă…</mat-option>
           <mat-option
             *ngFor="let airport of filteredFromAirports"
@@ -36,7 +36,7 @@
           formControlName="to"
           [matAutocomplete]="toAuto"
           (input)="filterToAirports($any($event.target).value)">
-        <mat-autocomplete #toAuto="matAutocomplete">
+        <mat-autocomplete #toAuto="matAutocomplete" [displayWith]="displayAirport">
           <mat-option *ngIf="airportsLoading" disabled>Se încarcă…</mat-option>
           <mat-option
             *ngFor="let airport of filteredToAirports"
