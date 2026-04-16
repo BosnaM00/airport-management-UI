@@ -92,8 +92,10 @@ export class SearchFlights implements OnInit {
     });
   }
 
-  displayAirport(airport: AirportResponseDTO | null): string {
-    return airport ? `${airport.iata} — ${airport.city}` : '';
+  displayAirport(airport: AirportResponseDTO | string | null): string {
+    if (!airport) return '';
+    if (typeof airport === 'string') return airport;
+    return `${airport.iata} — ${airport.city}`;
   }
 
   filterFromAirports(value: string | AirportResponseDTO): void {
@@ -151,12 +153,20 @@ export class SearchFlights implements OnInit {
     this.form.markAllAsTouched();
     if (this.form.invalid) return;
 
-    const fromAirport = this.form.value.from as AirportResponseDTO;
-    const toAirport   = this.form.value.to   as AirportResponseDTO;
+    const fromAirport = this.form.value.from;
+    const toAirport   = this.form.value.to;
     const depDate     = this.form.value.departureDate as Date;
 
-    this.searchedFrom = fromAirport.iata;
-    this.searchedTo   = toAirport.iata;
+    if (typeof fromAirport !== 'object' || !fromAirport?.id ||
+        typeof toAirport !== 'object'   || !toAirport?.id) {
+      this.errorMessage = 'Please select an airport from the dropdown list.';
+      this.loading = false;
+      this.hasSearched = true;
+      return;
+    }
+
+    this.searchedFrom = (fromAirport as AirportResponseDTO).iata;
+    this.searchedTo   = (toAirport as AirportResponseDTO).iata;
     this.loading      = true;
     this.hasSearched  = true;
     this.errorMessage = null;
@@ -167,7 +177,7 @@ export class SearchFlights implements OnInit {
     nextDay.setDate(nextDay.getDate() + 1);
     const dateTo = `${this.formatDate(nextDay)}T00:00:00`;
 
-    this.routeService.findRoute(fromAirport.id, toAirport.id).pipe(
+    this.routeService.findRoute((fromAirport as AirportResponseDTO).id, (toAirport as AirportResponseDTO).id).pipe(
       switchMap(routePage => {
         if (routePage.content.length === 0) {
           this.errorMessage = 'No route found between selected airports.';
