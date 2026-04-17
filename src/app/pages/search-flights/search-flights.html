@@ -4,7 +4,20 @@
     <div class="seg">
       <div class="label">De la</div>
       <mat-form-field appearance="outline" class="field">
-        <input matInput placeholder="Oraș sau aeroport" formControlName="from">
+        <input
+          matInput
+          placeholder="Oraș sau aeroport"
+          formControlName="from"
+          [matAutocomplete]="fromAuto"
+          (input)="filterFromAirports($any($event.target).value)">
+        <mat-autocomplete #fromAuto="matAutocomplete" [displayWith]="displayAirport">
+          <mat-option *ngIf="airportsLoading" disabled>Se încarcă…</mat-option>
+          <mat-option
+            *ngFor="let airport of filteredFromAirports"
+            [value]="airport">
+            <strong>{{ airport.iata }}</strong>&nbsp;{{ airport.name }} — {{ airport.city }}, {{ airport.country }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
 
@@ -17,7 +30,20 @@
     <div class="seg">
       <div class="label">La</div>
       <mat-form-field appearance="outline" class="field">
-        <input matInput placeholder="Țară, oraș sau aeroport" formControlName="to">
+        <input
+          matInput
+          placeholder="Țară, oraș sau aeroport"
+          formControlName="to"
+          [matAutocomplete]="toAuto"
+          (input)="filterToAirports($any($event.target).value)">
+        <mat-autocomplete #toAuto="matAutocomplete" [displayWith]="displayAirport">
+          <mat-option *ngIf="airportsLoading" disabled>Se încarcă…</mat-option>
+          <mat-option
+            *ngFor="let airport of filteredToAirports"
+            [value]="airport">
+            <strong>{{ airport.iata }}</strong>&nbsp;{{ airport.name }} — {{ airport.city }}, {{ airport.country }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
 

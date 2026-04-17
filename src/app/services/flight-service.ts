@@ -31,18 +31,18 @@ export class FlightService {
       }
 
   searchFlights(query: {
-    origin?: string;
-    destination?: string;
-    date?: string;
+    routeId?: number;
+    dateFrom?: string;
+    dateTo?: string;
     status?: string;
     page?: number;
     size?: number;
   }): Observable<PageResponse<FlightResponseDTO>> {
     let params = new HttpParams();
-    if (query.origin)      params = params.set('origin', query.origin);
-    if (query.destination) params = params.set('destination', query.destination);
-    if (query.date)        params = params.set('date', query.date);
-    if (query.status)      params = params.set('status', query.status);
+    if (query.routeId  != null) params = params.set('routeId',  query.routeId.toString());
+    if (query.dateFrom)         params = params.set('dateFrom', query.dateFrom);
+    if (query.dateTo)           params = params.set('dateTo',   query.dateTo);
+    if (query.status)           params = params.set('status',   query.status);
     params = params.set('page', (query.page ?? 0).toString());
     params = params.set('size', (query.size ?? 20).toString());
     return this.http.get<PageResponse<FlightResponseDTO>>(this.url, { params });

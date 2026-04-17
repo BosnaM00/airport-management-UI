@@ -6,7 +6,7 @@
 
 .search-bar {
   display: grid;
-  grid-template-columns: 1.1fr 52px 1.2fr 1fr 1fr 1.2fr 140px;
+  grid-template-columns: 1.1fr 52px 1.2fr 1fr 1fr 1.8fr auto;
   gap: 0;
   align-items: stretch;
 
@@ -16,6 +16,7 @@
 }
 
 .seg {
+  min-width: 0;
   padding: 12px 14px;
   border-right: 1px solid rgba(0,0,0,0.08);
   display: flex;
@@ -57,11 +58,25 @@
 }
 
 .travelers-btn {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   padding: 8px 10px;
   border-radius: 10px;
   width: 100%;
   text-align: left;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .travelers-btn .mdc-button__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .chev {
@@ -69,11 +84,12 @@
 }
 
 .cta {
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px;
-  background: #0b2440; /* ca să iasă butonul în evidență */
+  background: #0b2440;
 }
 
 .search-btn {
