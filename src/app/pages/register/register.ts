@@ -113,9 +113,9 @@ export class Register {
       grade: raw.grade ?? undefined,
       hireDate: raw.hireDate ? (raw.hireDate as Date).toISOString().split('T')[0] : undefined,
       docType: raw.docType ?? undefined,
-      docNumber: raw.docNumber ?? undefined,
-      nationality: raw.nationality ?? undefined,
-      loyaltyTier: raw.loyaltyTier ?? undefined,
+      docNumber: raw.docNumber!,
+      nationality: raw.nationality!,
+      loyaltyTier: raw.loyaltyTier!,
       emergencyContact: raw.emergencyContact ?? undefined,
     }).subscribe({
       next: () => this.router.navigate(['/search-flights']),
