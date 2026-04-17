@@ -16,6 +16,10 @@ export class Navbar {
   private dialog = inject(MatDialog);
   authService = inject(AuthService);
 
+  get userRole(): 'PASSENGER' | 'EMPLOYEE' | null {
+    return this.authService.getUserRole();
+  }
+
   openLogin(): void {
     this.dialog.open(AuthDialogComponent, {
       width: '500px',

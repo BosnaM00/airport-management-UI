@@ -118,7 +118,7 @@ export class Register {
       loyaltyTier: raw.loyaltyTier ?? undefined,
       emergencyContact: raw.emergencyContact ?? undefined,
     }).subscribe({
-      next: () => this.router.navigate(['/search-flights']),
+      next: () => this.router.navigate(['/passenger-dashboard']),
       error: () => { this.errorMessage = 'Registration failed. Please try again.'; }
     });
   }

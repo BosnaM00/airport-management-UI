@@ -1,0 +1,65 @@
+.dashboard-wrapper {
+  max-width: 900px;
+  margin: 48px auto;
+  padding: 0 24px;
+}
+
+.dashboard-header {
+  margin-bottom: 32px;
+}
+
+.dashboard-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.dashboard-header .subtitle {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.action-card {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.action-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.action-card mat-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  gap: 8px;
+}
+
+.action-card mat-icon {
+  font-size: 36px;
+  height: 36px;
+  width: 36px;
+  color: #1976d2;
+  margin-bottom: 8px;
+}
+
+.action-card h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.action-card p {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+}

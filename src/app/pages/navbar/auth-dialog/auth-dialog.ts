@@ -52,7 +52,11 @@ export class AuthDialogComponent {
 
     const { email, password } = this.loginForm.value;
     this.authService.login({ email: email!, password: password! }).subscribe({
-      next: () => this.dialogRef.close({ success: true }),
+      next: () => {
+        this.dialogRef.close({ success: true });
+        const role = this.authService.getUserRole();
+        this.router.navigate([role === 'EMPLOYEE' ? '/employee-dashboard' : '/passenger-dashboard']);
+      },
       error: () => { this.errorMessage = 'Invalid email or password.'; }
     });
   }
