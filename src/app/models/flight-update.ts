@@ -1,11 +1,12 @@
 export type FlightStatus = 'SCHEDULED' | 'BOARDING' | 'DELAYED' | 'CANCELLED' | 'IN_AIR' | 'LANDED';
 
+// Update uses the same shape as create (backend reuses FlightCreateDTO for both)
 export interface FlightUpdateDTO {
   code: string;
-  departureScheduled: string;
-  arrivalScheduled: string;
-  gate: string;
-  aircraftId: string;
-  routeId: string;
-  flightStatus: FlightStatus;
-  }
+  routeId: number;
+  departureTime: string;
+  arrivalTime: string;
+  status: FlightStatus;
+  gate?: string | null;
+  aircraftId?: number | null;
+}

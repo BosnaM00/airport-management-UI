@@ -19,4 +19,11 @@ export class RouteService {
       .set('size', '1');
     return this.http.get<PageResponse<RouteResponseDTO>>(this.url, { params });
   }
+
+  getAllRoutes(size: number = 200): Observable<PageResponse<RouteResponseDTO>> {
+    const params = new HttpParams()
+      .set('size', size.toString())
+      .set('sort', 'id,asc');
+    return this.http.get<PageResponse<RouteResponseDTO>>(this.url, { params });
+  }
 }
