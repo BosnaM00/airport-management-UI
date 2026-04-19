@@ -47,6 +47,18 @@ export class FlightService {
     return this.http.get<PageResponse<FlightResponseDTO>>(this.url, { params });
   }
 
+  /** @deprecated Use getAllFlights() with a FlightFilterQuery instead */
+  searchFlights(query: {
+    routeId?: number;
+    dateFrom?: string;
+    dateTo?: string;
+    status?: string;
+    page?: number;
+    size?: number;
+  }): Observable<PageResponse<FlightResponseDTO>> {
+    return this.getAllFlights(query);
+  }
+
   createFlight(payload: FlightCreateDTO): Observable<FlightResponseDTO> {
     return this.http.post<FlightResponseDTO>(this.url, payload);
   }

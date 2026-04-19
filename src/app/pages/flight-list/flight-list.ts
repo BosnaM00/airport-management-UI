@@ -331,4 +331,8 @@ export class FlightList implements OnInit, OnDestroy, AfterViewInit {
     const current: FlightStatus[] = this.filterForm.get('status')?.value ?? [];
     this.filterForm.patchValue({ status: current.filter(s => s !== status) });
   }
+
+  getStatusLabel(status: string): string {
+    return this.statusConfig[status as FlightStatus]?.label ?? status;
+  }
 }
