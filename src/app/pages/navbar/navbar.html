@@ -15,15 +15,38 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/airports" routerLinkActive="active">Airports</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/bookings" routerLinkActive="active">Bookings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/aircraft" routerLinkActive="active">Aircraft</a>
-        </li>
+        <!-- Guest or Passenger links -->
+        <ng-container *ngIf="!authService.isLoggedIn() || userRole === 'PASSENGER'">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/search-flights" routerLinkActive="active">Search Flights</a>
+          </li>
+        </ng-container>
+
+        <!-- Passenger-only links -->
+        <ng-container *ngIf="userRole === 'PASSENGER'">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/bookings" routerLinkActive="active">My Bookings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/profile" routerLinkActive="active">My Profile</a>
+          </li>
+        </ng-container>
+
+        <!-- Employee-only links -->
+        <ng-container *ngIf="userRole === 'EMPLOYEE'">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/flights" routerLinkActive="active">Flights</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/aircraft" routerLinkActive="active">Aircraft</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/airports" routerLinkActive="active">Airports</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/bookings" routerLinkActive="active">All Bookings</a>
+          </li>
+        </ng-container>
       </ul>
 
       <div class="ms-auto">

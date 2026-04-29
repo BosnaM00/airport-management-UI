@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { LoginRequest, RegisterRequest, AuthResponse } from '../models/auth';
 
 const TOKEN_KEY = 'auth_token';
+const ROLES_KEY = 'auth_roles';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -17,18 +18,19 @@ export class AuthService {
 
   login(payload: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, payload).pipe(
-      tap(res => this.saveToken(res.token))
+      tap(res => this.saveToken(res.token, res.roles ?? []))
     );
   }
 
   register(payload: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/register`, payload).pipe(
-      tap(res => this.saveToken(res.token))
+      tap(res => this.saveToken(res.token, res.roles ?? []))
     );
   }
 
   logout(): void {
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(ROLES_KEY);
     this.isLoggedIn.set(false);
     this.router.navigate(['/search-flights']);
   }
@@ -37,12 +39,28 @@ export class AuthService {
     return localStorage.getItem(TOKEN_KEY);
   }
 
+  getRoles(): string[] {
+    const stored = localStorage.getItem(ROLES_KEY);
+    return stored ? JSON.parse(stored) : [];
+  }
+
+  hasRole(role: string): boolean {
+    return this.getRoles().includes(role);
+  }
+
+  getUserRole(): 'PASSENGER' | 'EMPLOYEE' | null {
+    if (this.hasRole('EMPLOYEE')) return 'EMPLOYEE';
+    if (this.hasRole('PASSENGER')) return 'PASSENGER';
+    return null;
+  }
+
   private hasToken(): boolean {
     return !!localStorage.getItem(TOKEN_KEY);
   }
 
-  private saveToken(token: string): void {
+  private saveToken(token: string, roles: string[]): void {
     localStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(ROLES_KEY, JSON.stringify(roles));
     this.isLoggedIn.set(true);
   }
 }

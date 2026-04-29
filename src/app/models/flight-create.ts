@@ -2,9 +2,10 @@ export type FlightStatus = 'SCHEDULED' | 'BOARDING' | 'DELAYED' | 'CANCELLED' | 
 
 export interface FlightCreateDTO {
   code: string;
-  departureScheduled: string;
-  arrivalScheduled: string;
-  gate: string;
-  aircraftId: string;
-  routeId: string;
-  }
+  routeId: number;
+  departureTime: string;
+  arrivalTime: string;
+  status: FlightStatus;
+  gate?: string | null;
+  aircraftId?: number | null;
+}
